@@ -24,6 +24,8 @@ app.listen(4400, () => {
 ```
 
 
+### 2. WHat is nodemon why we use it?
+
 
 
 
