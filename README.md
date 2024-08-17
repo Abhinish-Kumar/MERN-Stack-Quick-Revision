@@ -87,9 +87,66 @@ app.listen(4400);
 
 ```
 
+### 4. Send the form data from the react and recieve from node js server with POST request.
+
+```javascript
+import axios from "axios";
+import { useState } from "react";
+
+function App() {
+  let [data, setData] = useState({});
+
+  function setDataOnchange(e) {
+    setData({ ...data, [e.target.name]: e.target.value });
+    console.log(data);
+  }
+
+  async function sendToServer() {
+    await axios.post("http://localhost:4400/", data);
+  }
+  return (
+    <>
+      <h1>Form Data</h1>
+      <input type="text" name="name" onChange={setDataOnchange} />
+      <input type="number" name="age" onChange={setDataOnchange} />
+      <input type="password" name="password" onChange={setDataOnchange} />
+      <button onClick={sendToServer}>Submit</button>
+    </>
+  );
+}
+
+export default App;
+
+```
 
 
+```javascript
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
+app.use(cors());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello This is abhinish from this side");
+});
+
+app.post("/", (req, res) => {
+  let { name, age, password } = req.body;
+  console.log(name, age, password);
+  res.send("Successfully form submitted");
+});
+
+app.listen(4400);
+
+```
 
 
 
