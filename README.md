@@ -3,6 +3,10 @@ Simplest way to learn MERN  Stack
 
 https://www.geeksforgeeks.org/full-stack-developer-roadmap/
 
+system design
+
+https://www.geeksforgeeks.org/top-10-system-design-interview-questions-and-answers/
+
 ### 1. Create a server in express js that shows "Hello World" on browser at same Port?
 
 ```javascript
