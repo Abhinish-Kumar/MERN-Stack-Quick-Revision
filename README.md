@@ -231,7 +231,72 @@ app.listen(4400);
 
 ```
 
+### 6. Write a node js server for register and login the suer 
 
+```javascript
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://127.0.0.1:27017/FormDataStudent");
+
+let studentSchema = new mongoose.Schema({
+  name: String,
+  age: String,
+  password: String,
+});
+
+let Student = mongoose.model("Student", studentSchema);
+
+app.use(cors());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello This is abhinish from this side");
+});
+
+app.post("/register", (req, res) => {
+  let { name, age, password } = req.body;
+  console.log(name, age, password);
+
+  let amit = new Student({
+    name: name,
+    age: age,
+    password: password,
+  });
+
+  amit.save();
+  res.send("Successfully form submitted");
+});
+
+//middleware to check the valid user
+async function checkUser(req, res, next) {
+  let validUser = false;
+  let { name, password } = req.body;
+  let data = await Student.findOne({ name: name, password: password }).exec();
+
+  if (data) {
+    console.log("Your middlw ware is working", data);
+    next();
+  } else {
+    res.status(401).send("Not a valid user");
+  }
+}
+
+app.post("/login", checkUser, async (req, res) => {
+  res.send("You are successfully Logedin");
+});
+
+app.listen(4400);
+
+```
 
 
 
